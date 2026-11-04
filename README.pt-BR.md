@@ -93,7 +93,7 @@ apenas sob `--root`; nenhuma ferramenta escreve. Para integrar ao Hermes, declar
 mcp_servers:
   achlab:
     command: ach-mcp
-    args: ["--root", "/home/<usuario>/analises"]
+    args: ["--root", "/caminho/absoluto/para/analises"]
 ```
 
 ## Método
