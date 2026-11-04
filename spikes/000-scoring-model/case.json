@@ -1,0 +1,109 @@
+{
+  "question": "Quem divulgou o rascunho de orçamento? (caso sintético)",
+  "hypotheses": [
+    {"id": "H1", "statement": "Alguém do escritório financeiro divulgou o rascunho."},
+    {"id": "H2", "statement": "Um prestador externo acessou o arquivo pelo drive compartilhado."},
+    {"id": "H3", "statement": "O arquivo ficou exposto por falha de configuração do servidor."}
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "title": "Log de acesso após o expediente",
+      "source": "Log sintético de crachá",
+      "locator": "fixture://log-cracha/2026-01-01",
+      "excerpt": "Acesso ao andar financeiro às 22:14; único após as 20:00.",
+      "reliability": "A",
+      "credibility": 2,
+      "relevance": "alta",
+      "assessments": {"H1": "++", "H2": "-", "H3": "0"}
+    },
+    {
+      "id": "E2",
+      "title": "Sessão VPN do prestador encerrada antes do vazamento",
+      "source": "Log sintético de VPN",
+      "locator": "fixture://log-vpn/2026-01-01",
+      "excerpt": "Sessão do prestador terminou às 21:00; post no fórum às 23:40.",
+      "reliability": "A",
+      "credibility": 1,
+      "relevance": "alta",
+      "assessments": {"H1": "0", "H2": "--", "H3": "0"}
+    },
+    {
+      "id": "E3",
+      "title": "Falha de configuração conhecida no servidor de arquivos",
+      "source": "Boletim sintético de infraestrutura",
+      "locator": "fixture://boletim-infra/2026-01-01",
+      "excerpt": "Servidor permitia leitura anônima em diretório legado.",
+      "reliability": "B",
+      "credibility": 2,
+      "relevance": "alta",
+      "assessments": {"H1": "0", "H2": "+", "H3": "++"}
+    },
+    {
+      "id": "E4",
+      "title": "Post em fórum público",
+      "source": "Captura sintética do fórum",
+      "locator": "fixture://forum/2026-01-01",
+      "excerpt": "Rascunho apareceu às 23:40, 80 minutos após a saída do financeiro.",
+      "reliability": "B",
+      "credibility": 3,
+      "relevance": "media",
+      "assessments": {"H1": "+", "H2": "+", "H3": "+"}
+    },
+    {
+      "id": "E5",
+      "title": "Conta do fórum criada com e-mail descartável",
+      "source": "Registro sintético do fórum",
+      "locator": "fixture://forum/conta/2026-01-01",
+      "excerpt": "Conta criada no mesmo dia, sem vínculo com identidade.",
+      "reliability": "C",
+      "credibility": 4,
+      "relevance": "media",
+      "assessments": {"H1": "0", "H2": "0", "H3": "0"}
+    },
+    {
+      "id": "E6",
+      "title": "Denúncia anônima",
+      "source": "Canal sintético de denúncia",
+      "locator": "fixture://denuncia/2026-01-01",
+      "excerpt": "Texto diz que 'alguém do financeiro' comentou o assunto.",
+      "reliability": "E",
+      "credibility": 5,
+      "relevance": "media",
+      "assessments": {"H1": "+", "H2": "0", "H3": "0"}
+    },
+    {
+      "id": "E7",
+      "title": "Correção da falha aplicada antes do vazamento",
+      "source": "Registro sintético de mudanças",
+      "locator": "fixture://mudancas/2026-01-01",
+      "excerpt": "Correção aplicada três dias antes do post; leitura anônima bloqueada.",
+      "reliability": "A",
+      "credibility": 1,
+      "relevance": "alta",
+      "assessments": {"H1": "0", "H2": "0", "H3": "--"}
+    },
+    {
+      "id": "E8",
+      "title": "Registro de insatisfação do servidor",
+      "source": "Extrato sintético de RH",
+      "locator": "fixture://rh/2026-01-01",
+      "excerpt": "Servidor do financeiro registrou insatisfação com a chefia no mês anterior.",
+      "reliability": "C",
+      "credibility": 3,
+      "relevance": "baixa",
+      "assessments": {"H1": "+", "H2": "0", "H3": "0"}
+    },
+    {
+      "id": "E9",
+      "title": "Prestador sem registro de entrada em 30 dias",
+      "source": "Log sintético de crachá",
+      "locator": "fixture://log-cracha/prestador/2026-01-01",
+      "excerpt": "Nenhuma entrada do prestador no período; acesso só remoto foi a VPN.",
+      "reliability": "B",
+      "credibility": 2,
+      "relevance": "alta",
+      "assessments": {"H1": "0", "H2": "-", "H3": "0"}
+    }
+  ]
+}
