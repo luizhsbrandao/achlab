@@ -64,5 +64,6 @@ project directory to git and tag the analysis version.
 ## MCP
 
 The MCP server is read-only: `ach_list_projects`, `ach_get_project`, `ach_score`, `ach_report`.
-It only reads under `--root` and refuses paths outside it. There is no MCP tool to accept
-evidence or record an assessment; those are human decisions made through the CLI.
+It only reads under `--root`, refuses paths outside it, and rejects a `project.json` symlink
+whose target escapes the root. There is no MCP tool to accept evidence or record an assessment;
+those are human decisions made through the CLI.

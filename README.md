@@ -60,8 +60,8 @@ the analysis is written through the CLI, with a human decision.
 .venv/bin/python -m pytest
 ```
 
-51 tests: matrix, tie, non-diagnostic evidence, decisive-evidence search, absolute-margin floor,
-integrity validation, CLI and MCP.
+53 tests: matrix, tie, non-diagnostic evidence, decisive-evidence search, absolute-margin floor,
+integrity validation, CLI, MCP and symlink containment.
 
 ## License
 

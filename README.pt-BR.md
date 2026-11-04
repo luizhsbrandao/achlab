@@ -112,8 +112,8 @@ robustez da análise, não a probabilidade da hipótese.
 .venv/bin/python -m pytest
 ```
 
-51 testes, incluindo empate, evidência não-diagnóstica, evidência decisiva, piso absoluto da
-margem, validação, CLI e MCP.
+53 testes, incluindo empate, evidência não-diagnóstica, evidência decisiva, piso absoluto da
+margem, validação, CLI, MCP e contenção de symlink.
 
 ## Licença
 

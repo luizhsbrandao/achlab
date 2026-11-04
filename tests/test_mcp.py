@@ -8,10 +8,12 @@ from achlab.demo import build_demo
 
 @pytest.fixture
 def root(tmp_path):
-    mcp_server.configure(tmp_path)
-    directory = tmp_path / "case"
+    base = tmp_path / "root"
+    base.mkdir()
+    mcp_server.configure(base)
+    directory = base / "case"
     store.save(build_demo(), directory)
-    return tmp_path
+    return base
 
 
 def test_lista_projetos(root):
@@ -53,3 +55,22 @@ def test_report_recusa_proveniencia_incompleta(root):
     store.save(project, root / "case")
     with pytest.raises(ValueError):
         mcp_server.ach_report("case")
+
+
+def test_symlink_de_project_json_fora_da_raiz(root, tmp_path):
+    outside = tmp_path / "outside"
+    store.save(build_demo(), outside)
+    link = root / "case" / store.PROJECT_FILE
+    link.unlink()
+    link.symlink_to(outside / store.PROJECT_FILE)
+    with pytest.raises(ValueError):
+        mcp_server.ach_get_project("case")
+    assert mcp_server.ach_list_projects() == []
+
+
+def test_symlink_dentro_da_raiz_permitido(root):
+    target = root / "case" / store.PROJECT_FILE
+    linked = root / "case2"
+    linked.mkdir()
+    (linked / store.PROJECT_FILE).symlink_to(target)
+    assert any(item["path"] == "case2" for item in mcp_server.ach_list_projects())

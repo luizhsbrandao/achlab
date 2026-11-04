@@ -27,15 +27,24 @@ def configure(root: str | Path) -> None:
     ROOT = Path(root).resolve()
 
 
+def _within_root(path: Path) -> bool:
+    """True se o caminho resolvido (symlinks incluídos) está sob ROOT."""
+    resolved = path.resolve()
+    return resolved == ROOT or ROOT in resolved.parents
+
+
 def _resolve(project: str) -> Path:
     candidate = Path(project)
     if not candidate.is_absolute():
         candidate = ROOT / candidate
     candidate = candidate.resolve()
-    if candidate != ROOT and ROOT not in candidate.parents:
+    if not _within_root(candidate):
         raise ValueError("projeto fora da raiz permitida")
-    if not (candidate / store.PROJECT_FILE).is_file():
+    project_file = candidate / store.PROJECT_FILE
+    if not project_file.is_file():
         raise FileNotFoundError(f"projeto não encontrado: {candidate}")
+    if not _within_root(project_file):
+        raise ValueError("project.json fora da raiz permitida")
     return candidate
 
 
@@ -57,6 +66,9 @@ def ach_list_projects() -> list[dict]:
         if store.PROJECT_FILE not in files:
             if len(Path(current).parts) - base_depth >= MAX_DEPTH:
                 dirs[:] = []
+            continue
+        project_file = Path(current) / store.PROJECT_FILE
+        if not _within_root(project_file):
             continue
         try:
             project = store.load(current)
