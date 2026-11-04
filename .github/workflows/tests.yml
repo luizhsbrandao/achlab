@@ -1,0 +1,59 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Tests
+        run: python -m pytest
+      - name: Smoke test the exit-code contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          trap 'rm -rf "$work"' EXIT
+
+          ach demo > "$work/demo.md"
+          grep -Fq 'Faixa: **MODERADA**' "$work/demo.md"
+
+          ach init "Smoke" --dir "$work/case"
+          ach hyp add "H1: insider" --dir "$work/case"
+          ach hyp add "H2: external" --dir "$work/case"
+          ach ev add --title "Log" --source "Synthetic log" \
+            --reliability A --credibility 1 --relevance alta \
+            --excerpt "22:00 access" --locator "fixture://log" --dir "$work/case"
+          ach ev add --title "Sem localizador" --source "Synthetic" \
+            --reliability B --credibility 2 --relevance media \
+            --excerpt "sem locator" --dir "$work/case"
+
+          set +e
+          ach report --dir "$work/case"
+          report_code=$?
+          set -e
+          test "$report_code" -eq 3
+
+          set +e
+          ach ev accept E2 --dir "$work/case"
+          accept_code=$?
+          set -e
+          test "$accept_code" -eq 2
+
+          ach assess E1 H1 --consistency ++ --rationale "ok" --dir "$work/case"
+          ach assess E1 H2 --consistency -- --rationale "não" --dir "$work/case"
+          ach ev accept E1 --dir "$work/case"
+          ach validate --dir "$work/case"
+          ach score --dir "$work/case"

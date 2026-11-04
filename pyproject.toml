@@ -24,10 +24,18 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "mcp>=1.0"]
+mcp = ["mcp>=1.0"]
+
+[project.urls]
+Homepage = "https://github.com/luizhsbrandao/achlab"
+Repository = "https://github.com/luizhsbrandao/achlab"
+Issues = "https://github.com/luizhsbrandao/achlab/issues"
+Documentation = "https://github.com/luizhsbrandao/achlab/tree/main/docs"
 
 [project.scripts]
 ach = "achlab.cli:main"
+ach-mcp = "achlab.mcp_server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,6 +1,6 @@
 """Pontuação determinística do ACH.
 
-Regras da spec (`_dev_net/opensource/achlab.md` §5), com a correção do spike M0:
+Regras da spec do projeto (§5), com a correção do spike M0:
 a faixa exige margem absoluta **e** relativa.
 """
 from __future__ import annotations

@@ -1,30 +1,21 @@
 # achlab
 
-Analysis of Competing Hypotheses with auditable provenance.
+*Analysis of Competing Hypotheses* with auditable provenance. Full documentation in Portuguese:
+[README.pt-BR.md](README.pt-BR.md).
 
-**Status:** M1 — the CLI works end to end on the synthetic case. Not published yet (M2 adds
-MCP, PyPI and the public repo). The durable spec lives in the project's private knowledge vault.
+**Status:** M2 — release candidate. CLI, read-only MCP server and 51 tests.
 
-The design rule is the same as `academia-tooling`: **verify, don't generate**. Every evidence
-item carries a citable source; every assessment carries a rationale; a report with incomplete
-provenance is refused (exit 3) unless explicitly stamped `NÃO CITÁVEL`.
+The design rule is **verify, don't generate**: every evidence item carries a citable source,
+every assessment carries a rationale, and a report with incomplete provenance is refused
+(exit 3) unless it is explicitly stamped `NÃO CITÁVEL`.
 
 ## Install (development)
 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e ".[dev]"
-```
-
-## Try it
-
-```bash
 .venv/bin/ach demo
 ```
-
-The demo uses a synthetic case (3 hypotheses, 9 evidence items) and prints the consistency
-matrix, the ranking by least inconsistency, margin, leave-one-out robustness and the confidence
-band.
 
 ## Workflow
 
@@ -44,18 +35,34 @@ ach report --dir case-001 --md case-001/report.md
 ach validate --dir case-001
 ```
 
-Exit codes: `0` ok, `1` operational error, `2` integrity/schema violation, `3` report refused
+Exit codes: `0` ok · `1` operational error · `2` integrity/schema violation · `3` report refused
 for incomplete provenance.
+
+## MCP (read-only)
+
+```bash
+pip install "achlab[mcp]"
+ach-mcp --root ~/analyses
+```
+
+Tools: `ach_list_projects`, `ach_get_project`, `ach_score`, `ach_report`. None of them writes;
+the analysis is written through the CLI, with a human decision.
+
+## Documentation
+
+- [Method](docs/metodo.md)
+- [Scoring](docs/pontuacao.md)
+- [Provenance and exit codes](docs/proveniencia.md)
 
 ## Test
 
 ```bash
-.venv/bin/python -m pytest -q
+.venv/bin/python -m pytest
 ```
 
-44 tests, including the tie case, non-diagnostic evidence, the decisive-evidence search and the
-absolute-margin floor found in the M0 spike.
+51 tests: matrix, tie, non-diagnostic evidence, decisive-evidence search, absolute-margin floor,
+integrity validation, CLI and MCP.
 
 ## License
 
-MIT.
+MIT. Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). Security: [SECURITY.md](SECURITY.md).
