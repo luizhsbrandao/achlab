@@ -3,7 +3,7 @@
 *Analysis of Competing Hypotheses* with auditable provenance. Full documentation in Portuguese:
 [README.pt-BR.md](README.pt-BR.md).
 
-**Status:** M2 — release candidate. CLI, read-only MCP server and 51 tests.
+**Status:** M2 — release candidate. CLI, read-only MCP server and 53 tests.
 
 The design rule is **verify, don't generate**: every evidence item carries a citable source,
 every assessment carries a rationale, and a report with incomplete provenance is refused
