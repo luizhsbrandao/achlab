@@ -6,7 +6,7 @@ Vale junto com `~/.agents/STATION-RULES.md`; onde as duas falarem, vale a mais r
 ## O que é
 
 `achlab` — *Analysis of Competing Hypotheses* com proveniência auditável. CLI (`ach`), servidor MCP
-read-only e 51 testes. Biblioteca, sem dependências de runtime (`dependencies = []`).
+read-only e 53 testes. Biblioteca, sem dependências de runtime (`dependencies = []`).
 
 A regra de desenho é **verificar, não gerar**: cada item de evidência carrega fonte citável, cada
 avaliação carrega justificativa, e relatório com proveniência incompleta é **recusado com exit 3**
@@ -15,7 +15,7 @@ até ser carimbado `NÃO CITÁVEL`. Não afrouxe essa recusa para fazer teste pa
 ## Comandos
 
 ```bash
-.venv/bin/python -m pytest -q          # suíte completa (51 testes) — é a verificação canônica
+.venv/bin/python -m pytest -q          # suíte completa (53 testes) — é a verificação canônica
 .venv/bin/pip install -e ".[dev]"      # instala se .venv não existir
 .venv/bin/ach demo                     # demo do CLI
 ```
