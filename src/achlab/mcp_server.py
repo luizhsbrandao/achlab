@@ -72,7 +72,11 @@ def ach_list_projects() -> list[dict]:
             continue
         try:
             project = store.load(current)
-        except Exception:
+        except (OSError, ValueError, KeyError, TypeError):
+            # `store.load` levanta FileNotFoundError/OSError (sem PROJECT_FILE ou ilegível),
+            # JSONDecodeError (ValueError) e KeyError/TypeError quando o JSON não bate com o
+            # schema. O scan de diretórios existe para ignorar o que não é projeto; logar cada
+            # candidato transformaria a listagem em ruído.
             continue
         found.append(
             {

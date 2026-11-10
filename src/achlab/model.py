@@ -38,7 +38,7 @@ class Source:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any] | None) -> "Source":
+    def from_dict(cls, data: dict[str, Any] | None) -> Source:
         data = data or {}
         return cls(
             citation=str(data.get("citation", "")),
@@ -65,7 +65,7 @@ class Assessment:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Assessment":
+    def from_dict(cls, data: dict[str, Any]) -> Assessment:
         return cls(
             consistency=str(data.get("consistency", "na")),
             rationale=str(data.get("rationale", "")),
@@ -94,7 +94,7 @@ class Hypothesis:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Hypothesis":
+    def from_dict(cls, data: dict[str, Any]) -> Hypothesis:
         return cls(
             id=str(data.get("id", "")),
             statement=str(data.get("statement", "")),
@@ -133,7 +133,7 @@ class Evidence:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Evidence":
+    def from_dict(cls, data: dict[str, Any]) -> Evidence:
         return cls(
             id=str(data.get("id", "")),
             title=str(data.get("title", "")),
@@ -181,7 +181,7 @@ class Project:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Project":
+    def from_dict(cls, data: dict[str, Any]) -> Project:
         return cls(
             question=str(data.get("question", "")),
             hypotheses=[Hypothesis.from_dict(h) for h in data.get("hypotheses", [])],
