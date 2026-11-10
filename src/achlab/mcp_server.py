@@ -16,7 +16,7 @@ except ImportError:  # mcp 1.x
 
 from . import store
 from .report import build as build_report
-from .scoring import confidence, leave_one_out, provenance, rank
+from .scoring import evaluate, provenance
 
 ROOT = Path.cwd().resolve()
 MAX_DEPTH = 4
@@ -94,17 +94,14 @@ def ach_get_project(project: str) -> dict:
 @server.tool(name="ach_score", description="Calcula ranking, margem, robustez e faixa.")
 def ach_score(project: str) -> dict:
     data = _project(project)
-    result = rank(data)
-    loo = leave_one_out(data)
-    prov = provenance(data)
-    band, detail = confidence(data, result, loo, prov)
+    evaluation = evaluate(data)
     return {
         "question": data.question,
-        "ranking": result,
-        "leave_one_out": loo,
-        "provenance": prov,
-        "confidence": band,
-        "detail": detail,
+        "ranking": evaluation["ranking"],
+        "leave_one_out": evaluation["leave_one_out"],
+        "provenance": evaluation["provenance"],
+        "confidence": evaluation["confidence"],
+        "detail": evaluation["detail"],
     }
 
 

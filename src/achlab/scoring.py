@@ -125,6 +125,21 @@ def provenance(project: Project) -> float:
     return ok / len(evidence)
 
 
+def evaluate(project: Project) -> dict:
+    """Recebe `Project`; devolve dict com `ranking`, `leave_one_out`, `provenance`, `confidence` e `detail`."""
+    result = rank(project)
+    loo = leave_one_out(project)
+    prov = provenance(project)
+    band, detail = confidence(project, result, loo, prov)
+    return {
+        "ranking": result,
+        "leave_one_out": loo,
+        "provenance": prov,
+        "confidence": band,
+        "detail": detail,
+    }
+
+
 def confidence(project: Project, result: dict, loo: dict, prov: float) -> tuple[str, dict]:
     hypothesis_ids = [h.id for h in project.active_hypotheses()]
     diagnostic = sum(

@@ -10,7 +10,7 @@ from . import store
 from .demo import build_demo
 from .model import Assessment, Evidence, Hypothesis, Project, Source, validate
 from .report import build as build_report
-from .scoring import confidence, leave_one_out, provenance, rank
+from .scoring import evaluate, provenance
 
 
 def _add_common(parser: argparse.ArgumentParser) -> None:
@@ -154,10 +154,12 @@ def cmd_score(args: argparse.Namespace) -> int:
     if errors:
         _print_errors(errors)
         return 2
-    result = rank(project)
-    loo = leave_one_out(project)
-    prov = provenance(project)
-    band, detail = confidence(project, result, loo, prov)
+    evaluation = evaluate(project)
+    result = evaluation["ranking"]
+    loo = evaluation["leave_one_out"]
+    prov = evaluation["provenance"]
+    band = evaluation["confidence"]
+    detail = evaluation["detail"]
 
     if args.json:
         payload = {
