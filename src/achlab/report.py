@@ -2,23 +2,18 @@
 from __future__ import annotations
 
 from .model import Project
-from .scoring import (
-    confidence,
-    diagnosticity,
-    leave_one_out,
-    provenance,
-    rank,
-    weight,
-)
+from .scoring import diagnosticity, evaluate, weight
 
 
 def build(project: Project, allow_incomplete: bool = False) -> str:
     hypothesis_ids = [h.id for h in project.active_hypotheses()]
     accepted = project.accepted_evidence()
-    result = rank(project)
-    loo = leave_one_out(project)
-    prov = provenance(project)
-    band, detail = confidence(project, result, loo, prov)
+    evaluation = evaluate(project)
+    result = evaluation["ranking"]
+    loo = evaluation["leave_one_out"]
+    prov = evaluation["provenance"]
+    band = evaluation["confidence"]
+    detail = evaluation["detail"]
 
     lines: list[str] = []
     if allow_incomplete and prov < 1.0:
